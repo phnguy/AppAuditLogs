@@ -1,24 +1,13 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "certificates_AzureRunAsCertificate_base64Value": {
-            "type": "SecureString"
-        },
-        "certificates_Cert_base64Value": {
-            "type": "SecureString"
-        },
-        "automationAccounts_auditlogsvc_name": {
-            "defaultValue": "auditlogsvc",
-            "type": "String"
-        }
-    },
+    "parameters": {},
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Automation/automationAccounts",
             "apiVersion": "2021-06-22",
-            "name": "[parameters('automationAccounts_auditlogsvc_name')]",
+            "name": "auditlogsvc",
             "location": "francecentral",
             "identity": {
                 "type": "SystemAssigned"
@@ -38,36 +27,36 @@
         {
             "type": "Microsoft.Automation/automationAccounts/certificates",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRunAsCertificate')]",
+            "name": "auditlogsvc/AzureRunAsCertificate",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "description": "This certificate is used to authenticate with the service principal that was automatically created for this account. For details on this service principal and certificate, or to recreate them, go to this account’s Settings. For example usage, see the tutorial runbook in this account.",
                 "isExportable": true,
                 "thumbprint": "ADF8BCFC9297F09A5821C7F4A6271E6A7CC97219",
-                "base64Value": "[parameters('certificates_AzureRunAsCertificate_base64Value')]"
+                "base64Value": null
             }
         },
         {
             "type": "Microsoft.Automation/automationAccounts/certificates",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Cert')]",
+            "name": "auditlogsvc/Cert",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "isExportable": true,
                 "thumbprint": "C5EF41B16ABDE04CFC6B4F3C12B8D8D530B07D59",
-                "base64Value": "[parameters('certificates_Cert_base64Value')]"
+                "base64Value": null
             }
         },
         {
             "type": "Microsoft.Automation/automationAccounts/connections",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRunAsConnection')]",
+            "name": "auditlogsvc/AzureRunAsConnection",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "connectionType": {
@@ -78,9 +67,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/connectionTypes",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Azure')]",
+            "name": "auditlogsvc/Azure",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "isGlobal": true,
@@ -101,9 +90,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/connectionTypes",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureClassicCertificate')]",
+            "name": "auditlogsvc/AzureClassicCertificate",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "isGlobal": true,
@@ -129,9 +118,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/connectionTypes",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureServicePrincipal')]",
+            "name": "auditlogsvc/AzureServicePrincipal",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "isGlobal": true,
@@ -162,9 +151,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/jobs",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/32fb2d60-fd84-4b78-84ea-a3c716c28060')]",
+            "name": "auditlogsvc/32fb2d60-fd84-4b78-84ea-a3c716c28060",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "runbook": {
@@ -175,9 +164,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/jobs",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/6e05e3d7-fb78-478f-9f9d-27add8b7a525')]",
+            "name": "auditlogsvc/6e05e3d7-fb78-478f-9f9d-27add8b7a525",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "runbook": {
@@ -188,9 +177,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/jobSchedules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/6143b572-9a0a-49b8-898b-628166bbb359')]",
+            "name": "auditlogsvc/6143b572-9a0a-49b8-898b-628166bbb359",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "runbook": {
@@ -204,9 +193,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AuditPolicyDsc')]",
+            "name": "auditlogsvc/AuditPolicyDsc",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -215,9 +204,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az')]",
+            "name": "auditlogsvc/Az",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -226,9 +215,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Accounts')]",
+            "name": "auditlogsvc/Az.Accounts",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -237,9 +226,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Advisor')]",
+            "name": "auditlogsvc/Az.Advisor",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -248,9 +237,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Aks')]",
+            "name": "auditlogsvc/Az.Aks",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -259,9 +248,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.AnalysisServices')]",
+            "name": "auditlogsvc/Az.AnalysisServices",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -270,9 +259,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ApiManagement')]",
+            "name": "auditlogsvc/Az.ApiManagement",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -281,9 +270,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.AppConfiguration')]",
+            "name": "auditlogsvc/Az.AppConfiguration",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -292,9 +281,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ApplicationInsights')]",
+            "name": "auditlogsvc/Az.ApplicationInsights",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -303,9 +292,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Attestation')]",
+            "name": "auditlogsvc/Az.Attestation",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -314,9 +303,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Automation')]",
+            "name": "auditlogsvc/Az.Automation",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -325,9 +314,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Batch')]",
+            "name": "auditlogsvc/Az.Batch",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -336,9 +325,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Billing')]",
+            "name": "auditlogsvc/Az.Billing",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -347,9 +336,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Cdn')]",
+            "name": "auditlogsvc/Az.Cdn",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -358,9 +347,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.CloudService')]",
+            "name": "auditlogsvc/Az.CloudService",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -369,9 +358,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.CognitiveServices')]",
+            "name": "auditlogsvc/Az.CognitiveServices",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -380,9 +369,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Compute')]",
+            "name": "auditlogsvc/Az.Compute",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -391,9 +380,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ContainerInstance')]",
+            "name": "auditlogsvc/Az.ContainerInstance",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -402,9 +391,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ContainerRegistry')]",
+            "name": "auditlogsvc/Az.ContainerRegistry",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -413,9 +402,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.CosmosDB')]",
+            "name": "auditlogsvc/Az.CosmosDB",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -424,9 +413,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DataBoxEdge')]",
+            "name": "auditlogsvc/Az.DataBoxEdge",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -435,9 +424,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Databricks')]",
+            "name": "auditlogsvc/Az.Databricks",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -446,9 +435,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DataFactory')]",
+            "name": "auditlogsvc/Az.DataFactory",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -457,9 +446,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DataLakeAnalytics')]",
+            "name": "auditlogsvc/Az.DataLakeAnalytics",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -468,9 +457,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DataLakeStore')]",
+            "name": "auditlogsvc/Az.DataLakeStore",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -479,9 +468,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DataShare')]",
+            "name": "auditlogsvc/Az.DataShare",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -490,9 +479,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DeploymentManager')]",
+            "name": "auditlogsvc/Az.DeploymentManager",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -501,9 +490,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DesktopVirtualization')]",
+            "name": "auditlogsvc/Az.DesktopVirtualization",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -512,9 +501,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.DevTestLabs')]",
+            "name": "auditlogsvc/Az.DevTestLabs",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -523,9 +512,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Dns')]",
+            "name": "auditlogsvc/Az.Dns",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -534,9 +523,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.EventGrid')]",
+            "name": "auditlogsvc/Az.EventGrid",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -545,9 +534,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.EventHub')]",
+            "name": "auditlogsvc/Az.EventHub",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -556,9 +545,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.FrontDoor')]",
+            "name": "auditlogsvc/Az.FrontDoor",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -567,9 +556,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Functions')]",
+            "name": "auditlogsvc/Az.Functions",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -578,9 +567,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.HDInsight')]",
+            "name": "auditlogsvc/Az.HDInsight",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -589,9 +578,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.HealthcareApis')]",
+            "name": "auditlogsvc/Az.HealthcareApis",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -600,9 +589,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.IotHub')]",
+            "name": "auditlogsvc/Az.IotHub",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -611,9 +600,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.KeyVault')]",
+            "name": "auditlogsvc/Az.KeyVault",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -622,9 +611,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Kusto')]",
+            "name": "auditlogsvc/Az.Kusto",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -633,9 +622,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.LogicApp')]",
+            "name": "auditlogsvc/Az.LogicApp",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -644,9 +633,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.MachineLearning')]",
+            "name": "auditlogsvc/Az.MachineLearning",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -655,9 +644,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Maintenance')]",
+            "name": "auditlogsvc/Az.Maintenance",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -666,9 +655,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ManagedServiceIdentity')]",
+            "name": "auditlogsvc/Az.ManagedServiceIdentity",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -677,9 +666,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ManagedServices')]",
+            "name": "auditlogsvc/Az.ManagedServices",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -688,9 +677,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.MarketplaceOrdering')]",
+            "name": "auditlogsvc/Az.MarketplaceOrdering",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -699,9 +688,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Media')]",
+            "name": "auditlogsvc/Az.Media",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -710,9 +699,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Migrate')]",
+            "name": "auditlogsvc/Az.Migrate",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -721,9 +710,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Monitor')]",
+            "name": "auditlogsvc/Az.Monitor",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -732,9 +721,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.MySql')]",
+            "name": "auditlogsvc/Az.MySql",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -743,9 +732,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Network')]",
+            "name": "auditlogsvc/Az.Network",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -754,9 +743,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.NotificationHubs')]",
+            "name": "auditlogsvc/Az.NotificationHubs",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -765,9 +754,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.OperationalInsights')]",
+            "name": "auditlogsvc/Az.OperationalInsights",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -776,9 +765,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.PolicyInsights')]",
+            "name": "auditlogsvc/Az.PolicyInsights",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -787,9 +776,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.PostgreSql')]",
+            "name": "auditlogsvc/Az.PostgreSql",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -798,9 +787,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.PowerBIEmbedded')]",
+            "name": "auditlogsvc/Az.PowerBIEmbedded",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -809,9 +798,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.PrivateDns')]",
+            "name": "auditlogsvc/Az.PrivateDns",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -820,9 +809,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.RecoveryServices')]",
+            "name": "auditlogsvc/Az.RecoveryServices",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -831,9 +820,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.RedisCache')]",
+            "name": "auditlogsvc/Az.RedisCache",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -842,9 +831,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.RedisEnterpriseCache')]",
+            "name": "auditlogsvc/Az.RedisEnterpriseCache",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -853,9 +842,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Relay')]",
+            "name": "auditlogsvc/Az.Relay",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -864,9 +853,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ResourceMover')]",
+            "name": "auditlogsvc/Az.ResourceMover",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -875,9 +864,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Resources')]",
+            "name": "auditlogsvc/Az.Resources",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -886,9 +875,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Security')]",
+            "name": "auditlogsvc/Az.Security",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -897,9 +886,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.SecurityInsights')]",
+            "name": "auditlogsvc/Az.SecurityInsights",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -908,9 +897,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ServiceBus')]",
+            "name": "auditlogsvc/Az.ServiceBus",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -919,9 +908,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.ServiceFabric')]",
+            "name": "auditlogsvc/Az.ServiceFabric",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -930,9 +919,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.SignalR')]",
+            "name": "auditlogsvc/Az.SignalR",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -941,9 +930,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Sql')]",
+            "name": "auditlogsvc/Az.Sql",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -952,9 +941,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.SqlVirtualMachine')]",
+            "name": "auditlogsvc/Az.SqlVirtualMachine",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -963,9 +952,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.StackHCI')]",
+            "name": "auditlogsvc/Az.StackHCI",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -974,9 +963,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Storage')]",
+            "name": "auditlogsvc/Az.Storage",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -985,9 +974,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.StorageSync')]",
+            "name": "auditlogsvc/Az.StorageSync",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -996,9 +985,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.StreamAnalytics')]",
+            "name": "auditlogsvc/Az.StreamAnalytics",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1007,9 +996,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Support')]",
+            "name": "auditlogsvc/Az.Support",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1018,9 +1007,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Synapse')]",
+            "name": "auditlogsvc/Az.Synapse",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1029,9 +1018,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.TrafficManager')]",
+            "name": "auditlogsvc/Az.TrafficManager",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1040,9 +1029,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Az.Websites')]",
+            "name": "auditlogsvc/Az.Websites",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1051,9 +1040,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Azure')]",
+            "name": "auditlogsvc/Azure",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1062,9 +1051,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Azure.Storage')]",
+            "name": "auditlogsvc/Azure.Storage",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1073,9 +1062,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRM.Automation')]",
+            "name": "auditlogsvc/AzureRM.Automation",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1084,9 +1073,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRM.Compute')]",
+            "name": "auditlogsvc/AzureRM.Compute",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1095,9 +1084,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRM.Profile')]",
+            "name": "auditlogsvc/AzureRM.Profile",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1106,9 +1095,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRM.Resources')]",
+            "name": "auditlogsvc/AzureRM.Resources",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1117,9 +1106,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRM.Sql')]",
+            "name": "auditlogsvc/AzureRM.Sql",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1128,9 +1117,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureRM.Storage')]",
+            "name": "auditlogsvc/AzureRM.Storage",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1139,9 +1128,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/ComputerManagementDsc')]",
+            "name": "auditlogsvc/ComputerManagementDsc",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1150,9 +1139,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/GPRegistryPolicyParser')]",
+            "name": "auditlogsvc/GPRegistryPolicyParser",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1161,9 +1150,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Microsoft.PowerShell.Core')]",
+            "name": "auditlogsvc/Microsoft.PowerShell.Core",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1172,9 +1161,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Microsoft.PowerShell.Diagnostics')]",
+            "name": "auditlogsvc/Microsoft.PowerShell.Diagnostics",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1183,9 +1172,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Microsoft.PowerShell.Management')]",
+            "name": "auditlogsvc/Microsoft.PowerShell.Management",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1194,9 +1183,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Microsoft.PowerShell.Security')]",
+            "name": "auditlogsvc/Microsoft.PowerShell.Security",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1205,9 +1194,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Microsoft.PowerShell.Utility')]",
+            "name": "auditlogsvc/Microsoft.PowerShell.Utility",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1216,9 +1205,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Microsoft.WSMan.Management')]",
+            "name": "auditlogsvc/Microsoft.WSMan.Management",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1227,9 +1216,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Orchestrator.AssetManagement.Cmdlets')]",
+            "name": "auditlogsvc/Orchestrator.AssetManagement.Cmdlets",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1238,9 +1227,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/PSDscResources')]",
+            "name": "auditlogsvc/PSDscResources",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1249,9 +1238,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/SecurityPolicyDsc')]",
+            "name": "auditlogsvc/SecurityPolicyDsc",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1260,9 +1249,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/StateConfigCompositeResources')]",
+            "name": "auditlogsvc/StateConfigCompositeResources",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1271,9 +1260,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/xDSCDomainjoin')]",
+            "name": "auditlogsvc/xDSCDomainjoin",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1282,9 +1271,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/xPowerShellExecutionPolicy')]",
+            "name": "auditlogsvc/xPowerShellExecutionPolicy",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1293,9 +1282,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/modules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/xRemoteDesktopAdmin')]",
+            "name": "auditlogsvc/xRemoteDesktopAdmin",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "contentLink": {}
@@ -1304,10 +1293,10 @@
         {
             "type": "Microsoft.Automation/automationAccounts/runbooks",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureAutomationTutorialScript')]",
+            "name": "auditlogsvc/AzureAutomationTutorialScript",
             "location": "francecentral",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "runbookType": "PowerShell",
@@ -1319,10 +1308,10 @@
         {
             "type": "Microsoft.Automation/automationAccounts/runbooks",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureAutomationTutorialWithIdentity')]",
+            "name": "auditlogsvc/AzureAutomationTutorialWithIdentity",
             "location": "francecentral",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "runbookType": "PowerShell",
@@ -1334,10 +1323,10 @@
         {
             "type": "Microsoft.Automation/automationAccounts/runbooks",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/AzureAutomationTutorialWithIdentityGraphical')]",
+            "name": "auditlogsvc/AzureAutomationTutorialWithIdentityGraphical",
             "location": "francecentral",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "runbookType": "GraphPowerShell",
@@ -1349,10 +1338,10 @@
         {
             "type": "Microsoft.Automation/automationAccounts/runbooks",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/GetUnifiedLogsApp')]",
+            "name": "auditlogsvc/GetUnifiedLogsApp",
             "location": "francecentral",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "runbookType": "PowerShell7",
@@ -1364,9 +1353,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/schedules",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/Daily')]",
+            "name": "auditlogsvc/Daily",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "startTime": "2022-08-04T00:00:00+02:00",
@@ -1379,9 +1368,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/variables",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/LogAnalyticsWorkspace')]",
+            "name": "auditlogsvc/LogAnalyticsWorkspace",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "isEncrypted": true
@@ -1390,9 +1379,9 @@
         {
             "type": "Microsoft.Automation/automationAccounts/variables",
             "apiVersion": "2020-01-13-preview",
-            "name": "[concat(parameters('automationAccounts_auditlogsvc_name'), '/SharedKey')]",
+            "name": "auditlogsvc/SharedKey",
             "dependsOn": [
-                "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_auditlogsvc_name'))]"
+                "[resourceId('Microsoft.Automation/automationAccounts', 'auditlogsvc')]"
             ],
             "properties": {
                 "isEncrypted": true
